@@ -142,14 +142,6 @@ class ChatView extends StatelessWidget {
 
     return PopScope(
       canPop: controller.selectedEvents.isEmpty && !controller.showEmojiPicker,
-      onPopInvokedWithResult: (pop, _) async {
-        if (pop) return;
-        if (controller.selectedEvents.isNotEmpty) {
-          controller.clearSelectedEvents();
-        } else if (controller.showEmojiPicker) {
-          controller.emojiPickerAction();
-        }
-      },
       child: StreamBuilder(
         stream: controller.room.client.onRoomState.stream
             .where((update) => update.roomId == controller.room.id)

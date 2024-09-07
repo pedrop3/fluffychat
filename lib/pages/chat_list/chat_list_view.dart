@@ -32,22 +32,6 @@ class ChatListView extends StatelessWidget {
           canPop: controller.selectMode == SelectMode.normal &&
               !controller.isSearchMode &&
               controller.activeSpaceId == null,
-          onPopInvokedWithResult: (pop, _) {
-            if (pop) return;
-            if (controller.activeSpaceId != null) {
-              controller.clearActiveSpace();
-              return;
-            }
-            final selMode = controller.selectMode;
-            if (controller.isSearchMode) {
-              controller.cancelSearch();
-              return;
-            }
-            if (selMode != SelectMode.normal) {
-              controller.cancelAction();
-              return;
-            }
-          },
           child: Row(
             children: [
               if (FluffyThemes.isColumnMode(context) &&
