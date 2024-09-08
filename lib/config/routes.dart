@@ -62,7 +62,7 @@ abstract class AppRoutes {
       pageBuilder: (context, state) => defaultPageBuilder(
         context,
         state,
-        const HomeserverPicker(addMultiAccount: false),
+        const HomeserverPicker(),
       ),
       redirect: loggedInRedirect,
       routes: [
@@ -242,7 +242,7 @@ abstract class AppRoutes {
                       pageBuilder: (context, state) => defaultPageBuilder(
                         context,
                         state,
-                        const HomeserverPicker(addMultiAccount: true),
+                        const HomeserverPicker(),
                       ),
                       routes: [
                         GoRoute(
