@@ -1,6 +1,8 @@
-import 'package:flutter/material.dart';
-//import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart'; // Para selecionar imagens e vídeos
+//import 'package:amplify_flutter/amplify_flutter.dart';
+//import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 
 class FileExplorerPage extends StatefulWidget {
   @override
@@ -10,6 +12,7 @@ class FileExplorerPage extends StatefulWidget {
 class _FileExplorerPageState extends State<FileExplorerPage> {
   List<StorageItem> files = [];
   bool isLoading = false;
+  final ImagePicker _picker = ImagePicker(); // Para selecionar imagens e vídeos
 
   @override
   void initState() {
@@ -68,6 +71,106 @@ class _FileExplorerPageState extends State<FileExplorerPage> {
     }
   }
 
+  void _showActionSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => Wrap(
+        children: <Widget>[
+          ListTile(
+            leading: Icon(Icons.upload_file),
+            title: Text('Upload de Arquivos'),
+            onTap: () {
+              Navigator.pop(context);
+              _uploadFiles();
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.camera_alt),
+            title: Text('Abrir Câmera'),
+            onTap: () {
+              Navigator.pop(context);
+              _openCamera();
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.video_camera_back),
+            title: Text('Abrir Vídeo'),
+            onTap: () {
+              Navigator.pop(context);
+              _openVideo();
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.folder_open),
+            title: Text('Criar Novo Caminho'),
+            onTap: () {
+              Navigator.pop(context);
+              _createNewPath();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _uploadFiles() async {
+    // Implementar lógica para upload de arquivos
+  }
+
+  Future<void> _openCamera() async {
+    final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
+    if (photo != null) {
+      // Faça algo com a imagem
+      print('Imagem capturada: ${photo.path}');
+    }
+  }
+
+  Future<void> _openVideo() async {
+    final XFile? video = await _picker.pickVideo(source: ImageSource.camera);
+    if (video != null) {
+      // Faça algo com o vídeo
+      print('Vídeo capturado: ${video.path}');
+    }
+  }
+
+  Future<void> _createNewPath() async {
+    final TextEditingController _controller = TextEditingController();
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // Não permite fechar o diálogo clicando fora dele
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Criar Novo Caminho'),
+          content: TextField(
+            controller: _controller,
+            decoration: InputDecoration(hintText: 'Nome do novo caminho'),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancelar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Criar'),
+              onPressed: () {
+                final pathName = _controller.text.trim();
+                if (pathName.isNotEmpty) {
+                  // Adicione a lógica para criar o novo caminho
+                  print('Criar novo caminho: $pathName');
+                  // Atualize a lista de arquivos se necessário
+                }
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,15 +181,6 @@ class _FileExplorerPageState extends State<FileExplorerPage> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            // O botão foi removido para que o carregamento aconteça automaticamente
-            // ElevatedButton(
-            //   onPressed: _listFiles, // Chama a função ao clicar
-            //   child: Text('Abrir'),
-            //   style: ElevatedButton.styleFrom(
-            //     padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            //     textStyle: TextStyle(fontSize: 20),
-            //   ),
-            // ),
             if (isLoading)
               Center(child: CircularProgressIndicator())
             else if (files.isEmpty)
@@ -122,6 +216,11 @@ class _FileExplorerPageState extends State<FileExplorerPage> {
               ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _showActionSheet,
+        child: Icon(Icons.add),
+        tooltip: 'Adicionar',
       ),
     );
   }
