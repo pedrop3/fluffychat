@@ -17,6 +17,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
+  amplify_core:
+    dependency: transitive
+    description:
+      name: amplify_core
+      sha256: c5102703a0239fedc9ed71e2b2ee6481e31a0c1be576ab551b16925504fbdee7
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.5"
+  amplify_storage_plugin_interface:
+    dependency: transitive
+    description:
+      name: amplify_storage_plugin_interface
+      sha256: a41af191d4a6bb86a08651451634a009d31317e8906395b08e7f7261a7b4899e
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.5"
+  amplify_storage_s3:
+    dependency: "direct main"
+    description:
+      name: amplify_storage_s3
+      sha256: "0b9bbb8512b03045029d83abf6f9aad9f13b39ecc7fbbf9f69fdf4c3bb1a0ae1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.5"
   analyzer:
     dependency: transitive
     description:
